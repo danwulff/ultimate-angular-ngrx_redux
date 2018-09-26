@@ -1,39 +1,40 @@
-import * as fromStore from "./store";
+import * as fromStore from './store';
 
-import { renderTodos } from "./utils";
+import { renderTodos } from './utils';
 
-const input = document.querySelector("input") as HTMLInputElement;
-const button = document.querySelector("button") as HTMLButtonElement;
-const destroy = document.querySelector(".unsubscribe") as HTMLButtonElement;
-const todoList = document.querySelector(".todos") as HTMLLIElement;
+const input = document.querySelector('input') as HTMLInputElement;
+const button = document.querySelector('button') as HTMLButtonElement;
+const destroy = document.querySelector('.unsubscribe') as HTMLButtonElement;
+const todoList = document.querySelector('.todos') as HTMLLIElement;
 
-const store = new fromStore.Store(
-  {},
-  {
-    todos: [{ label: "Eat pizza", complete: false }]
-  }
-);
+const reducers = {
+  todos: fromStore.reducer,
+};
+
+const store = new fromStore.Store(reducers);
 
 button.addEventListener(
-  "click",
+  'click',
   () => {
     if (!input.value.trim()) return;
 
     const payload = { label: input.value, complete: false };
 
     store.dispatch({
-      type: "ADD_TODO",
-      payload: payload
+      type: 'ADD_TODO',
+      payload,
     });
 
-    input.value = "";
+    console.log(store.value);
+
+    input.value = '';
   },
   false
 );
 
-todoList.addEventListener("click", function(event) {
+todoList.addEventListener('click', function(event) {
   const target = event.target as HTMLButtonElement;
-  if (target.nodeName.toLowerCase() === "button") {
+  if (target.nodeName.toLowerCase() === 'button') {
     console.log(target);
   }
 });
